@@ -58,8 +58,12 @@ pub fn run() {
             commands::agent::register_agent_dir,
             commands::agent::get_home_dir,
             commands::stats::get_recent_sessions,
+            commands::stats::get_session_messages,
+            commands::stats::get_daily_costs,
+            commands::stats::get_model_stats,
             commands::stats::get_total_cost_today,
             commands::stats::save_session,
+            commands::stats::import_history,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
