@@ -16,6 +16,8 @@ pub fn run() {
     let watcher_for_setup = session_watcher.clone();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .manage(pty_manager)
         .manage(loop_detector)
         .manage(database)

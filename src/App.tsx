@@ -3,6 +3,7 @@ import { TerminalsPage } from "./pages/TerminalsPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { SettingsPage } from "./pages/SettingsPage";
+import { UpdateChecker } from "./UpdateChecker";
 
 const isTauri = !!(window as any).__TAURI_INTERNALS__;
 const font = "Menlo, Monaco, 'SF Mono', monospace";
@@ -103,6 +104,7 @@ export default function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100vw", height: "100vh", background: "#171717" }}>
+      <UpdateChecker />
       {/* Main content */}
       <div style={{ flex: 1, minHeight: 0, display: "flex", overflow: "hidden" }}>
         {tab === "terminals" && (

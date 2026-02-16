@@ -10,6 +10,9 @@
     "shell:default",
     "core:event:default",
     "core:event:allow-listen",
-    "core:event:allow-emit"
+    "core:event:allow-emit",
+    "updater:default",
+    "process:default",
+    "process:allow-restart"
   ]
 }
