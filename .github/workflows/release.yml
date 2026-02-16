@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build and release (aarch64)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Sonar v__VERSION__'
+          releaseBody: 'Claude Code Agent Dashboard'
+          releaseDraft: true
+          prerelease: false
+          args: --target aarch64-apple-darwin
+
+      - name: Build and release (x86_64)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Sonar v__VERSION__'
+          releaseDraft: true
+          prerelease: false
+          args: --target x86_64-apple-darwin
+
+      - name: Update Homebrew tap
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+
+          GH_TOKEN="$GITHUB_TOKEN" gh release download "$GITHUB_REF_NAME" --pattern "*.dmg" --dir "$RUNNER_TEMP"
+
+          ARM_DMG=$(ls "$RUNNER_TEMP"/*aarch64*.dmg 2>/dev/null || ls "$RUNNER_TEMP"/*arm64*.dmg 2>/dev/null)
+          INTEL_DMG=$(ls "$RUNNER_TEMP"/*x64*.dmg 2>/dev/null || ls "$RUNNER_TEMP"/*x86_64*.dmg 2>/dev/null)
+
+          SHA_ARM=$(shasum -a 256 "$ARM_DMG" | cut -d' ' -f1)
+          SHA_INTEL=$(shasum -a 256 "$INTEL_DMG" | cut -d' ' -f1)
+
+          ARM_URL="https://github.com/use-sonar/open-sonar/releases/download/v${VERSION}/$(basename "$ARM_DMG")"
+          INTEL_URL="https://github.com/use-sonar/open-sonar/releases/download/v${VERSION}/$(basename "$INTEL_DMG")"
+
+          cat > "$RUNNER_TEMP/open-sonar.rb" <<CASK
+          cask "open-sonar" do
+            version "${VERSION}"
+
+            on_arm do
+              url "${ARM_URL}"
+              sha256 "${SHA_ARM}"
+            end
+
+            on_intel do
+              url "${INTEL_URL}"
+              sha256 "${SHA_INTEL}"
+            end
+
+            name "Sonar"
+            desc "Claude Code Agent Dashboard"
+            homepage "https://github.com/use-sonar/open-sonar"
+
+            app "Sonar.app"
+
+            zap trash: [
+              "~/.open-sonar",
+            ]
+          end
+          CASK
+
+          cd "$RUNNER_TEMP"
+          git clone "https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/use-sonar/homebrew-tap.git"
+          mkdir -p homebrew-tap/Casks
+          cp open-sonar.rb homebrew-tap/Casks/open-sonar.rb
+          cd homebrew-tap
+          git add .
+          git commit -m "Update open-sonar to v${VERSION}" || true
+          git push || true
