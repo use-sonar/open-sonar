@@ -76,7 +76,7 @@ export function HistoryPage({ onExport }: { onExport: (sessions: Session[]) => v
         <div style={{ borderTop: "1px solid #2a2a2e", paddingTop: 12 }}>
           <div style={{ color: "#636366", fontSize: 11, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>Message Timeline</div>
           {messages.map((m) => (
-            <div key={m.id} style={{ display: "flex", gap: 12, padding: "6px 0", borderBottom: "1px solid #1e1e22" }}>
+            <div key={m.id} style={{ display: "flex", gap: 12, padding: "6px 0", borderBottom: "1px solid #222222" }}>
               <span style={{ color: "#48484a", width: 60, flexShrink: 0, fontSize: 11 }}>
                 {m.timestamp ? new Date(m.timestamp).toLocaleTimeString() : ""}
               </span>
@@ -122,8 +122,8 @@ export function HistoryPage({ onExport }: { onExport: (sessions: Session[]) => v
           <span style={{ width: 140, textAlign: "right" }}>Date</span>
         </div>
         {sessions.map((s) => (
-          <div key={s.id} onClick={() => loadMessages(s.id)} style={{ display: "flex", padding: "8px 0", borderBottom: "1px solid #1e1e22", cursor: "pointer" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#1a1a1e"; }}
+          <div key={s.id} onClick={() => loadMessages(s.id)} style={{ display: "flex", padding: "8px 0", borderBottom: "1px solid #222222", cursor: "pointer" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#1e1e1e"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
           >
             <span style={{ flex: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.project || s.id}</span>

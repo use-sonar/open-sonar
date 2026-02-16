@@ -84,7 +84,7 @@ export function AnalyticsPage() {
       {/* Cost chart */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ color: "#636366", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Daily Cost</div>
-        <div style={{ height: 200, background: "#1a1a1e", borderRadius: 8, padding: "12px 8px" }}>
+        <div style={{ height: 200, background: "#1e1e1e", borderRadius: 8, padding: "12px 8px" }}>
           <ResponsiveContainer>
             <AreaChart data={daily}>
               <defs>
@@ -109,7 +109,7 @@ export function AnalyticsPage() {
       <div style={{ marginBottom: 24 }}>
         <div style={{ color: "#636366", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Model Comparison</div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <div style={{ background: "#1a1a1e", borderRadius: 8, padding: 16 }}>
+          <div style={{ background: "#1e1e1e", borderRadius: 8, padding: 16 }}>
             <div style={{ color: "#48484a", fontSize: 11, marginBottom: 12 }}>Cost by Model</div>
             <div style={{ height: 160 }}>
               <ResponsiveContainer>
@@ -124,10 +124,10 @@ export function AnalyticsPage() {
               </ResponsiveContainer>
             </div>
           </div>
-          <div style={{ background: "#1a1a1e", borderRadius: 8, padding: 16 }}>
+          <div style={{ background: "#1e1e1e", borderRadius: 8, padding: 16 }}>
             <div style={{ color: "#48484a", fontSize: 11, marginBottom: 12 }}>Avg Cost / Session</div>
             {models.map((m) => (
-              <div key={m.model} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #1e1e22" }}>
+              <div key={m.model} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #222222" }}>
                 <span style={{ color: MODEL_COLORS[getModelKey(m.model)] || "#636366" }}>
                   {m.model.includes("opus") ? "Opus" : m.model.includes("sonnet") ? "Sonnet" : "Haiku"}
                 </span>
@@ -144,7 +144,7 @@ export function AnalyticsPage() {
       {/* Energy estimation */}
       <div>
         <div style={{ color: "#636366", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Energy Estimation</div>
-        <div style={{ background: "#1a1a1e", borderRadius: 8, padding: 16, color: "#9898a0", fontSize: 12, lineHeight: 1.6 }}>
+        <div style={{ background: "#1e1e1e", borderRadius: 8, padding: 16, color: "#9898a0", fontSize: 12, lineHeight: 1.6 }}>
           Based on Luccioni et al. (2023) estimates for LLM inference energy consumption.
           <br />Opus ≈ 0.004 Wh/1K tokens · Sonnet ≈ 0.001 Wh/1K tokens · Haiku ≈ 0.0005 Wh/1K tokens
           <br />CO₂ calculated using US average grid intensity (385g CO₂/kWh).
@@ -161,7 +161,7 @@ export function AnalyticsPage() {
 
 function KPICard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div style={{ background: "#1a1a1e", borderRadius: 8, padding: "12px 16px" }}>
+    <div style={{ background: "#1e1e1e", borderRadius: 8, padding: "12px 16px" }}>
       <div style={{ fontSize: 18, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{value}</div>
       <div style={{ color: "#636366", fontSize: 11, marginTop: 2 }}>{label}</div>
       {sub && <div style={{ color: "#48484a", fontSize: 10, marginTop: 1 }}>{sub}</div>}

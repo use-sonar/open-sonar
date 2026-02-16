@@ -48,11 +48,11 @@ export function SettingsPage() {
       <Section title="General">
         <Row label="Default directory">
           <input value={settings.defaultDir} onChange={(e) => update("defaultDir", e.target.value)}
-            style={{ background: "#1a1a1e", border: "1px solid #2a2a2e", borderRadius: 6, color: "#d1d1d6", fontSize: 13, fontFamily: font, padding: "4px 8px", width: 200, outline: "none" }} />
+            style={{ background: "#1e1e1e", border: "1px solid #2a2a2e", borderRadius: 6, color: "#d1d1d6", fontSize: 13, fontFamily: font, padding: "4px 8px", width: 200, outline: "none" }} />
         </Row>
         <Row label="Retention (days)">
           <input type="number" value={settings.retentionDays} onChange={(e) => update("retentionDays", parseInt(e.target.value) || 90)}
-            style={{ background: "#1a1a1e", border: "1px solid #2a2a2e", borderRadius: 6, color: "#d1d1d6", fontSize: 13, fontFamily: font, padding: "4px 8px", width: 80, outline: "none" }} />
+            style={{ background: "#1e1e1e", border: "1px solid #2a2a2e", borderRadius: 6, color: "#d1d1d6", fontSize: 13, fontFamily: font, padding: "4px 8px", width: 80, outline: "none" }} />
         </Row>
       </Section>
 
@@ -71,14 +71,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div style={{ marginBottom: 24 }}>
       <div style={{ color: "#636366", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{title}</div>
-      <div style={{ background: "#1a1a1e", borderRadius: 8, padding: 12 }}>{children}</div>
+      <div style={{ background: "#1e1e1e", borderRadius: 8, padding: 12 }}>{children}</div>
     </div>
   );
 }
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: "1px solid #1e1e22" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: "1px solid #222222" }}>
       <span style={{ color: "#9898a0" }}>{label}</span>
       {children}
     </div>
